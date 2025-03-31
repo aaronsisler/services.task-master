@@ -1,0 +1,46 @@
+Description: API Gateway and lambda
+AWSTemplateFormatVersion: "2010-09-09"
+
+Resources:
+  LambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      FunctionName: "task-master-lambda"
+      Handler: hello_handler.handle
+      Runtime: python3.13
+      MemorySize: 128
+      Code:
+        S3Bucket: "eb-solutions-code-deployment"
+        S3Key: "path/to/your/lambda.zip"
+      Role: arn:aws:iam::654918520080:role/task-master-role
+      Timeout: 60
+      Tags:
+        - Key: CostCenter
+          Value: services.task-master
+
+#  ApiGateway:
+#    Type: "AWS::ApiGateway::RestApi"
+#    Properties:
+#      Name: "task-master-apigw"
+#
+#    ProxyResource:
+#      Type: "AWS::ApiGateway::Resource"
+#      Properties:
+#        ParentId: !GetAtt ApiGateway.RootResourceId
+#        RestApiId: !Ref ApiGateway
+#        PathPart: '{proxy+}' OR "a simple string like "PetStore"
+#
+#    ApiGatewayRootMethod:
+#      Type: "AWS::ApiGateway::Method"
+#      Properties:
+#        AuthorizationType: NONE
+#        HttpMethod: ANY
+#        Integration:
+#          IntegrationHttpMethod: POST
+#          Type: AWS_PROXY
+#          IntegrationResponses:
+#            - StatusCode: 200
+#          Uri: !Sub >-
+#            arn:aws:ApiGateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
+#        ResourceId: !Ref ProxyResource
+#        RestApiId: !Ref ApiGateway
