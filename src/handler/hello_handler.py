@@ -1,7 +1,7 @@
 import json
 
 
-def lambda_handler(event, context):
+def hello_handler(event, context):
 
     print(event)
 
