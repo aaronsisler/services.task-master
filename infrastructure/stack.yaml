@@ -5,13 +5,13 @@ Resources:
   LambdaFunction:
     Type: "AWS::Lambda::Function"
     Properties:
-      FunctionName: "task-master-lambda"
+      FunctionName: "task-master-service"
       Handler: hello_handler.handle
       Runtime: python3.13
       MemorySize: 128
       Code:
         S3Bucket: "eb-solutions-code-deployment"
-        S3Key: "path/to/your/lambda.zip"
+        S3Key: "services/task-master/service.zip"
       Role: arn:aws:iam::654918520080:role/task-master-role
       Timeout: 60
       Tags:
