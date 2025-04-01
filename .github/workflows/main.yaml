@@ -24,11 +24,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Create Folder uuid
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
       - name: Zip Up Application
-        run: python --version
+        run: cd app && zip ../service.zip -r ./src
 
       - name: Publish Zip to S3
-        run: python --version
+        run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/$UUID/service.zip --body service.zip
+
+      - name: Delete Stack
+        run: aws cloudformation delete-stack --stack-name task-master-stack
+
+      - name: Wait For Delete Stack
+        run: aws cloudformation wait stack-delete-complete --stack-name task-master-stack
 
       - name: Run Cloudformation Deployment
-        run: python --version
+        run: aws cloudformation create-stack --stack-name task-master-stack --template-body file://infrastructure/stack.yaml --parameters ParameterKey=S3KeyPath,ParameterValue=$UUID
+
+      - name: Wait For Create Stack
+        run: aws cloudformation wait stack-create-complete --stack-name task-master-stack
