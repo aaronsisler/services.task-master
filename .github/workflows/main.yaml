@@ -1,0 +1,46 @@
+name: Pull Request
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Publish-Lambda-To-Cloud:
+    name: Publish Lambda To Cloud
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Create Folder uuid
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Zip Up Application
+        run: cd app && zip ../service.zip -r ./src
+
+      - name: Publish Zip to S3
+        run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/$UUID/service.zip --body service.zip
+
+      - name: Delete Stack
+        run: aws cloudformation delete-stack --stack-name task-master-stack
+
+      - name: Wait For Delete Stack
+        run: aws cloudformation wait stack-delete-complete --stack-name task-master-stack
+
+      - name: Run Cloudformation Deployment
+        run: aws cloudformation create-stack --stack-name task-master-stack --template-body file://infrastructure/stack.yaml --parameters ParameterKey=S3KeyPath,ParameterValue=$UUID
+
+      - name: Wait For Create Stack
+        run: aws cloudformation wait stack-create-complete --stack-name task-master-stack
