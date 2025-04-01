@@ -31,16 +31,14 @@ jobs:
       - name: Echo UUID
         run: |
           echo $UUID
-        
-        
 
         # Save a version of the application here from a versions file
-        #      - name: Zip Up Application
-        #        run: cd app && zip ../service.zip -r ./src
+      - name: Zip Up Application
+        run: cd app && zip ../service.zip -r ./src
 
         # Push a new version to a sub folder
-        #      - name: Publish Zip to S3
-        #        run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/service.zip --body service.zip
+      - name: Publish Zip to S3
+        run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/$UUID/service.zip --body service.zip
 
         #      - name: Run Cloudformation Deployment
         #        run: aws cloudformation update-stack --stack-name task-master-stack --template-body file://infrastructure/stack.yaml
