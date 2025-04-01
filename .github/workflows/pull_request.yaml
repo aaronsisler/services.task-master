@@ -25,10 +25,10 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Zip Up Application
-        run: cd app && zip ../service.zip -r ./src
+        run: cd app && zip ../../service.zip -r ./src
 
       - name: Publish Zip to S3
-        run: aws --version
+        run: aws s3 sync service.zip s3://eb-solutions-code-deployment/services/task-master/
 #        run: eb-solutions-code-deployment
 
 #      - name: Run Cloudformation Deployment
