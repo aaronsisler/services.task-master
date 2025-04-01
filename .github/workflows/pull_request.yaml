@@ -25,10 +25,10 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Zip Up Application
-        run: python --version
+        run: zip service.zip -r ./app/src
 
-      - name: Publish Zip to S3
-        run: python --version
+#      - name: Publish Zip to S3
+#        run: python --version
 
-      - name: Run Cloudformation Deployment
-        run: python --version
+#      - name: Run Cloudformation Deployment
+#        run: python --version
