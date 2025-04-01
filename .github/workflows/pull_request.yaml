@@ -40,8 +40,11 @@ jobs:
       - name: Publish Zip to S3
         run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/$UUID/service.zip --body service.zip
 
+      #      - name: Check If Stack Exists
+      #        run: aws cloudformation wait stack-exists --stack-name task-master-stack
+
       - name: Create Empty Stack If Not Exists
-        run: aws cloudformation wait create-stack --stack-name task-master-stack --template-body file://infrastructure/empty-stack.yaml
+        run: aws cloudformation create-stack --stack-name task-master-stack --template-body file://infrastructure/empty-stack.yaml
 
         # Pass Parameters here to force a deployment of lambda
       - name: Run Cloudformation Deployment
