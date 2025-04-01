@@ -4,6 +4,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 Resources:
   LambdaFunction:
     Type: "AWS::Lambda::Function"
+    Description: Handles scaling up and down of ECS and ALB stacks
     Properties:
       FunctionName: "task-master-service"
       Handler: hello_handler.handle

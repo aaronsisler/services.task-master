@@ -30,7 +30,5 @@ jobs:
       - name: Publish Zip to S3
         run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/service.zip --body service.zip
 
-#        run: eb-solutions-code-deployment
-
-#      - name: Run Cloudformation Deployment
-#        run: python --version
+      - name: Run Cloudformation Deployment
+        run: aws cloud-formation --create-stack task-master-stack
