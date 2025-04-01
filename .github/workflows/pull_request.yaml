@@ -42,4 +42,4 @@ jobs:
 
         # Pass Parameters here to force a deployment of lambda
       - name: Run Cloudformation Deployment
-        run: aws cloudformation create-stack --stack-name task-master-stack --template-body file://infrastructure/stack.yaml --parameters S3KeyPath=$UUID
+        run: aws cloudformation create-stack --stack-name task-master-stack --template-body file://infrastructure/stack.yaml --parameters ParameterKey=S3KeyPath,ParameterValue=$UUID
