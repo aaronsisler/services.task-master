@@ -24,11 +24,25 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Zip Up Application
-        run: cd app && zip ../service.zip -r ./src
+      - name: Get uuid
+        id: UUID
+        run: |
+          echo "::set-output name=UUID::$(uuidgen)"
 
-      - name: Publish Zip to S3
-        run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/service.zip --body service.zip
+      - name: Echo UUID
+        run: |
+          echo $UUID
+        
+        
 
-      - name: Run Cloudformation Deployment
-        run: aws cloudformation create-stack --stack-name task-master-stack --template-body file://infrastructure/stack.yaml
+        # Save a version of the application here from a versions file
+        #      - name: Zip Up Application
+        #        run: cd app && zip ../service.zip -r ./src
+
+        # Push a new version to a sub folder
+        #      - name: Publish Zip to S3
+        #        run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/service.zip --body service.zip
+
+        #      - name: Run Cloudformation Deployment
+        #        run: aws cloudformation update-stack --stack-name task-master-stack --template-body file://infrastructure/stack.yaml
+        # Pass Parameters here to force a redeploy of lambda
