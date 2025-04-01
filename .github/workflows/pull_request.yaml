@@ -31,4 +31,4 @@ jobs:
         run: aws s3api put-object --bucket eb-solutions-code-deployment --key services/task-master/service.zip --body service.zip
 
       - name: Run Cloudformation Deployment
-        run: aws cloud-formation --create-stack task-master-stack
+        run: aws cloudformation --create-stack task-master-stack
