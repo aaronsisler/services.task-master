@@ -25,9 +25,8 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Get uuid
-        id: UUID
         run: |
-          echo "::set-output name=UUID::$(uuidgen)"
+          echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Echo UUID
         run: |
