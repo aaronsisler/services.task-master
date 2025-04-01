@@ -1,6 +1,11 @@
 Description: API Gateway and lambda
 AWSTemplateFormatVersion: "2010-09-09"
 
+
+Parameters:
+  S3KeyPath:
+    Type: String
+
 Resources:
   LambdaFunction:
     Type: "AWS::Lambda::Function"
@@ -12,7 +17,7 @@ Resources:
       MemorySize: 128
       Code:
         S3Bucket: "eb-solutions-code-deployment"
-        S3Key: "services/task-master/service.zip"
+        S3Key: !Ref "services/task-master/${S3KeyPath}/service.zip"
       Role: arn:aws:iam::654918520080:role/task-master-role
       Timeout: 60
       Tags:
