@@ -1,4 +1,6 @@
+dist/
 venv/
 
 .DS_Store
 service.zip
+
