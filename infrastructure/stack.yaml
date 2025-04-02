@@ -37,9 +37,6 @@ Resources:
     Type: "AWS::ApiGateway::RestApi"
     Properties:
       Name: "task-master-apigw"
-      EndpointConfiguration:
-        Types:
-          - REGIONAL
 
   ApiGatewayRootMethod:
     DependsOn: [ LambdaFunction, ApiGateway ]
