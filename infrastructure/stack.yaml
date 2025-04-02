@@ -37,19 +37,19 @@ Resources:
       RestApiId: !Ref ApiGateway
       PathPart: "hello"
 
-  ApiGatewayRootMethod:
-    DependsOn: [ LambdaFunction ]
-    Type: "AWS::ApiGateway::Method"
-    Properties:
-      AuthorizationType: NONE
-      HttpMethod: GET
-      Integration:
-        IntegrationHttpMethod: POST
-        Type: AWS_PROXY
-        IntegrationResponses:
-          - StatusCode: 200
-        Uri: !Sub >-
-          - arn:aws:ApiGateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
-          - lambdaArn: !GetAtt LambdaFunction.Arn
-      ResourceId: !Ref ProxyResource
-      RestApiId: !Ref ApiGateway
+#  ApiGatewayRootMethod:
+#    DependsOn: [ LambdaFunction ]
+#    Type: "AWS::ApiGateway::Method"
+#    Properties:
+#      AuthorizationType: NONE
+#      HttpMethod: GET
+#      Integration:
+#        IntegrationHttpMethod: POST
+#        Type: AWS_PROXY
+#        IntegrationResponses:
+#          - StatusCode: 200
+#        Uri: !Sub >-
+#          - arn:aws:ApiGateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
+#          - lambdaArn: !GetAtt LambdaFunction.Arn
+#      ResourceId: !Ref ProxyResource
+#      RestApiId: !Ref ApiGateway
