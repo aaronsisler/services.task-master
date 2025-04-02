@@ -38,20 +38,20 @@ Resources:
     Properties:
       Name: "task-master-apigw"
 
-  ApiGatewayResourceStack:
-    DependsOn: [ ApiGateway ]
-    Type: "AWS::ApiGateway::Resource"
-    Properties:
-      RestApiId: !Ref ApiGateway
-      ParentId: !GetAtt ApiGateway.RootResourceId
-      PathPart: "stack"
+  #  ApiGatewayResourceStack:
+  #    DependsOn: [ ApiGateway ]
+  #    Type: "AWS::ApiGateway::Resource"
+  #    Properties:
+  #      RestApiId: !Ref ApiGateway
+  #      ParentId: !GetAtt ApiGateway.RootResourceId
+  #      PathPart: "stack"
 
   ApiGatewayStackMethod:
-    DependsOn: [ LambdaFunction, ApiGateway, ApiGatewayResourceStack ]
+    DependsOn: [ LambdaFunction, ApiGateway ]
     Type: "AWS::ApiGateway::Method"
     Properties:
       RestApiId: !Ref ApiGateway
-      ResourceId: !Ref ApiGatewayResourceStack
+      ResourceId: !Ref ApiGateway
       AuthorizationType: NONE
       HttpMethod: POST
       Integration:
@@ -65,3 +65,22 @@ Resources:
     Properties:
       RestApiId: !Ref ApiGateway
       StageName: prod
+
+#  Certificate:
+#    Type: 'AWS::CertificateManager::Certificate'
+#    Properties:
+#      DomainName: stack.otterandcow.com
+
+#  DomainName:
+#    DependsOn: [ Certificate ]
+#    Type: 'AWS::ApiGateway::DomainName'
+#    Properties:
+#      CertificateArn: !Ref Certificate
+#      DomainName: stack.otterandcow.com
+
+#  Mapping:
+#    DependsOn: [ ApiGateway, DomainName ]
+#    Type: 'AWS::ApiGateway::BasePathMapping'
+#    Properties:
+#      DomainName: !Ref DomainName
+#      RestApiId: !Ref ApiGateway
