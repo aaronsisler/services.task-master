@@ -39,6 +39,7 @@ Resources:
       Name: "task-master-apigw"
 
   ApiGatewayResourceHello:
+    DependsOn: [ ApiGateway ]
     Type: "AWS::ApiGateway::Resource"
     Properties:
       ParentId: !GetAtt ApiGateway.RootResourceId
@@ -46,7 +47,7 @@ Resources:
       RestApiId: !Ref ApiGateway
 
   ApiGatewayRootMethod:
-    DependsOn: [ LambdaFunction, ApiGateway ]
+    DependsOn: [ LambdaFunction, ApiGateway, ApiGatewayResourceHello ]
     Type: "AWS::ApiGateway::Method"
     Properties:
       AuthorizationType: NONE
