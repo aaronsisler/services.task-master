@@ -31,7 +31,7 @@ jobs:
         run: cp -r ./app ./dist
 
       - name: Zip Up Application
-        run: cd app && zip ../service.zip -r ./src
+        run: zip service.zip -r ./dist
 
       - name: Create Folder uuid
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
