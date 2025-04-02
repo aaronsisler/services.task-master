@@ -49,7 +49,7 @@ Resources:
         IntegrationResponses:
           - StatusCode: 200
         Uri:
-          - !Sub arn:aws:ApiGateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
+          - !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
           - lambdaArn: !GetAtt LambdaFunction.Arn
       ResourceId: !Ref ProxyResource
       RestApiId: !Ref ApiGateway
