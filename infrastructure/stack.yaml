@@ -30,6 +30,7 @@ Resources:
       Name: "task-master-apigw"
 
   ProxyResource:
+    DependsOn: [ ApiGateway ]
     Type: "AWS::ApiGateway::Resource"
     Properties:
       ParentId: !GetAtt ApiGateway.RootResourceId
@@ -37,6 +38,7 @@ Resources:
       PathPart: "hello"
 
   ApiGatewayRootMethod:
+    DependsOn: [ LambdaFunction ]
     Type: "AWS::ApiGateway::Method"
     Properties:
       AuthorizationType: NONE
