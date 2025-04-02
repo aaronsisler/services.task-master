@@ -24,29 +24,29 @@ Resources:
         - Key: CostCenter
           Value: services.task-master
 
-#  ApiGateway:
-#    Type: "AWS::ApiGateway::RestApi"
-#    Properties:
-#      Name: "task-master-apigw"
-#
-#    ProxyResource:
-#      Type: "AWS::ApiGateway::Resource"
-#      Properties:
-#        ParentId: !GetAtt ApiGateway.RootResourceId
-#        RestApiId: !Ref ApiGateway
-#        PathPart: '{proxy+}' OR "a simple string like "PetStore"
-#
-#    ApiGatewayRootMethod:
-#      Type: "AWS::ApiGateway::Method"
-#      Properties:
-#        AuthorizationType: NONE
-#        HttpMethod: ANY
-#        Integration:
-#          IntegrationHttpMethod: POST
-#          Type: AWS_PROXY
-#          IntegrationResponses:
-#            - StatusCode: 200
-#          Uri: !Sub >-
-#            arn:aws:ApiGateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
-#        ResourceId: !Ref ProxyResource
-#        RestApiId: !Ref ApiGateway
+  ApiGateway:
+    Type: "AWS::ApiGateway::RestApi"
+    Properties:
+      Name: "task-master-apigw"
+
+    ProxyResource:
+      Type: "AWS::ApiGateway::Resource"
+      Properties:
+        ParentId: !GetAtt ApiGateway.RootResourceId
+        RestApiId: !Ref ApiGateway
+        PathPart: "hello"
+
+    ApiGatewayRootMethod:
+      Type: "AWS::ApiGateway::Method"
+      Properties:
+        AuthorizationType: NONE
+        HttpMethod: ANY
+        Integration:
+          IntegrationHttpMethod: POST
+          Type: AWS_PROXY
+          IntegrationResponses:
+            - StatusCode: 200
+          Uri: !Sub >-
+            arn:aws:ApiGateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
+        ResourceId: !Ref ProxyResource
+        RestApiId: !Ref ApiGateway
