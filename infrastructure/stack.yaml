@@ -51,7 +51,7 @@ Resources:
     Type: "AWS::ApiGateway::Method"
     Properties:
       RestApiId: !Ref ApiGateway
-      ResourceId: !Ref ApiGateway.RootResourceId
+      ResourceId: !GetAtt ApiGateway.RootResourceId
       AuthorizationType: NONE
       HttpMethod: POST
       Integration:
