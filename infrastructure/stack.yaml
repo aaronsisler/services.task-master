@@ -12,7 +12,7 @@ Resources:
     Description: Handles scaling up and down of ECS and ALB stacks
     Properties:
       FunctionName: "task-master-service"
-      Handler: src/handler/hello_handler.handle
+      Handler: src/handler/stack_handler.handle
       Runtime: python3.13
       MemorySize: 128
       Code:
@@ -38,22 +38,22 @@ Resources:
     Properties:
       Name: "task-master-apigw"
 
-  ApiGatewayResourceHello:
+  ApiGatewayResourceStack:
     DependsOn: [ ApiGateway ]
     Type: "AWS::ApiGateway::Resource"
     Properties:
       RestApiId: !Ref ApiGateway
       ParentId: !GetAtt ApiGateway.RootResourceId
-      PathPart: "hello"
+      PathPart: "stack"
 
-  ApiGatewayRootMethod:
-    DependsOn: [ LambdaFunction, ApiGateway, ApiGatewayResourceHello ]
+  ApiGatewayStackMethod:
+    DependsOn: [ LambdaFunction, ApiGateway, ApiGatewayResourceStack ]
     Type: "AWS::ApiGateway::Method"
     Properties:
       RestApiId: !Ref ApiGateway
-      ResourceId: !Ref ApiGatewayResourceHello
+      ResourceId: !Ref ApiGatewayResourceStack
       AuthorizationType: NONE
-      HttpMethod: GET
+      HttpMethod: POST
       Integration:
         IntegrationHttpMethod: POST
         Type: AWS_PROXY
