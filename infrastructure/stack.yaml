@@ -12,7 +12,7 @@ Resources:
     Description: Handles scaling up and down of ECS and ALB stacks
     Properties:
       FunctionName: "task-master-service"
-      Handler: src/handler/stack_handler.handle
+      Handler: dist/src/handler/stack_handler.handle
       Runtime: python3.13
       MemorySize: 128
       Code:
