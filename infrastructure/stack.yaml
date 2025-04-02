@@ -42,22 +42,22 @@ Resources:
     DependsOn: [ ApiGateway ]
     Type: "AWS::ApiGateway::Resource"
     Properties:
+      RestApiId: !Ref ApiGateway
       ParentId: !GetAtt ApiGateway.RootResourceId
       PathPart: "hello"
-      RestApiId: !Ref ApiGateway
 
   ApiGatewayRootMethod:
     DependsOn: [ LambdaFunction, ApiGateway, ApiGatewayResourceHello ]
     Type: "AWS::ApiGateway::Method"
     Properties:
+      RestApiId: !Ref ApiGateway
+      ResourceId: !Ref ApiGatewayResourceHello
       AuthorizationType: NONE
       HttpMethod: GET
       Integration:
-        IntegrationHttpMethod: GET
+        IntegrationHttpMethod: POST
         Type: AWS_PROXY
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
-      ResourceId: !Ref ApiGatewayResourceHello
-      RestApiId: !Ref ApiGateway
 
   ApiGatewayDeployment:
     DependsOn: [ ApiGatewayRootMethod ]
