@@ -28,7 +28,7 @@ jobs:
         run: pip install -r requirements.txt --target ./dist
 
       - name: Copy Source Files To Dist
-        run: cp -rp ./app/src ./dist
+        run: cp -rp ./app ./dist
 
       - name: Zip Up Application
         run: zip service.zip -r ./dist
