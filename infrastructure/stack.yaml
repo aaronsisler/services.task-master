@@ -47,11 +47,11 @@ Resources:
       PathPart: "stack"
 
   ApiGatewayStackMethod:
-    DependsOn: [ LambdaFunction, ApiGateway ]
+    DependsOn: [ LambdaFunction, ApiGateway, ApiGatewayResourceStack ]
     Type: "AWS::ApiGateway::Method"
     Properties:
       RestApiId: !Ref ApiGateway
-      ResourceId: !GetAtt ApiGatewayResourceStack.RootResourceId
+      ResourceId: !Ref ApiGatewayResourceStack
       AuthorizationType: NONE
       HttpMethod: POST
       Integration:
