@@ -43,9 +43,9 @@ Resources:
     Type: "AWS::ApiGateway::Method"
     Properties:
       AuthorizationType: NONE
-      HttpMethod: POST
+      HttpMethod: GET
       Integration:
-        IntegrationHttpMethod: POST
+        IntegrationHttpMethod: GET
         Type: AWS_PROXY
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
       ResourceId: !GetAtt ApiGateway.RootResourceId
