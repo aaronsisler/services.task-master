@@ -69,7 +69,7 @@ Resources:
   Certificate:
     Type: 'AWS::CertificateManager::Certificate'
     Properties:
-      DomainName: stack.otterandcow.com
+      DomainName: otterandcow.com
 
   DomainName:
     DependsOn: [ Certificate ]
