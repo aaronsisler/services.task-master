@@ -12,7 +12,7 @@ Resources:
     Description: Handles scaling up and down of ECS and ALB stacks
     Properties:
       FunctionName: "task-master-service"
-      Handler: dist/app/src/handler/stack_handler.handle
+      Handler: app/src/handler/stack_handler.handle
       Runtime: python3.13
       MemorySize: 128
       Code:
@@ -66,21 +66,21 @@ Resources:
       RestApiId: !Ref ApiGateway
       StageName: prod
 
-#  Certificate:
-#    Type: 'AWS::CertificateManager::Certificate'
-#    Properties:
-#      DomainName: stack.otterandcow.com
+  Certificate:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: stack.otterandcow.com
 
-#  DomainName:
-#    DependsOn: [ Certificate ]
-#    Type: 'AWS::ApiGateway::DomainName'
-#    Properties:
-#      CertificateArn: !Ref Certificate
-#      DomainName: stack.otterandcow.com
+  DomainName:
+    DependsOn: [ Certificate ]
+    Type: 'AWS::ApiGateway::DomainName'
+    Properties:
+      CertificateArn: !Ref Certificate
+      DomainName: stack.otterandcow.com
 
-#  Mapping:
-#    DependsOn: [ ApiGateway, DomainName ]
-#    Type: 'AWS::ApiGateway::BasePathMapping'
-#    Properties:
-#      DomainName: !Ref DomainName
-#      RestApiId: !Ref ApiGateway
+  Mapping:
+    DependsOn: [ ApiGateway, DomainName ]
+    Type: 'AWS::ApiGateway::BasePathMapping'
+    Properties:
+      DomainName: !Ref DomainName
+      RestApiId: !Ref ApiGateway
