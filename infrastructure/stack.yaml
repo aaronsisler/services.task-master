@@ -38,6 +38,13 @@ Resources:
     Properties:
       Name: "task-master-apigw"
 
+  ApiGatewayResourceHello:
+    Type: "AWS::ApiGateway::Resource"
+    Properties:
+      ParentId: !GetAtt ApiGateway.RootResourceId
+      PathPart: "hello"
+      RestApiId: !Ref ApiGateway
+
   ApiGatewayRootMethod:
     DependsOn: [ LambdaFunction, ApiGateway ]
     Type: "AWS::ApiGateway::Method"
@@ -48,7 +55,7 @@ Resources:
         IntegrationHttpMethod: GET
         Type: AWS_PROXY
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
-      ResourceId: !GetAtt ApiGateway.RootResourceId
+      ResourceId: !GetAtt ApiGatewayResourceHell
       RestApiId: !Ref ApiGateway
 
   ApiGatewayDeployment:
