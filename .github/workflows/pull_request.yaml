@@ -25,10 +25,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Install dependencies
-        run: pip install -r requirements.txt --target ./dist
-
-      - name: Copy Source Files To Dist
-        run: cp -r ./app ./dist
+        run: pip install -r requirements.txt --target ./app
 
       - name: Zip Up Application
-        run: zip service.zip -r ./dist
+        run: zip service.zip -r ./app
