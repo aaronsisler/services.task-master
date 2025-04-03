@@ -99,7 +99,7 @@ Resources:
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunctionDelete.Arn}/invocations
 
   ApiGatewayDeployment:
-    DependsOn: [ ApiGatewayStackMethod ]
+    DependsOn: [ ApiGatewayStackMethodCreate, ApiGatewayStackMethodDelete ]
     Type: AWS::ApiGateway::Deployment
     Properties:
       RestApiId: !Ref ApiGateway
