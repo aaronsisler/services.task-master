@@ -119,3 +119,16 @@ Resources:
       DomainName: !Ref DomainName
       RestApiId: !Ref ApiGateway
       Stage: prod
+
+  ApiGwRoute53:
+    Type: 'AWS::Route53::RecordSetGroup'
+    Properties:
+      HostedZoneName:
+        Ref: otterandcow.com.
+      RecordSets:
+        - Name:
+            Fn::Sub: stack.otterandcow.com.
+          Type: A
+          AliasTarget:
+            HostedZoneId: !GetAtt DomainName.RegionalHostedZoneId
+            DNSName: !GetAtt DomainName.RegionalDomainName
