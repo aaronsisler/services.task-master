@@ -5,6 +5,10 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   S3KeyPath:
     Type: String
+  HostedZoneId:
+    Type: String
+    Description: 'Route 53 Hosted Zone ID for the domain'
+    Default: 'ZR2VAHLVW389H'
 
 Resources:
   LambdaFunctionCreate:
@@ -121,14 +125,11 @@ Resources:
       Stage: prod
 
   ApiGwRoute53:
-    Type: 'AWS::Route53::RecordSetGroup'
+    Type: 'AWS::Route53::RecordSet'
     Properties:
-      HostedZoneName:
-        Ref: otterandcow.com.
-      RecordSets:
-        - Name:
-            Fn::Sub: stack.otterandcow.com.
-          Type: A
-          AliasTarget:
-            HostedZoneId: !GetAtt DomainName.RegionalHostedZoneId
-            DNSName: !GetAtt DomainName.RegionalDomainName
+      HostedZoneId: !Ref HostedZoneId
+      Name: stack.otterandcow.com.
+      Type: A
+      AliasTarget:
+        HostedZoneId: !GetAtt DomainName.RegionalHostedZoneId
+        DNSName: !GetAtt DomainName.RegionalDomainName
