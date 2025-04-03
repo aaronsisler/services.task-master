@@ -2,7 +2,7 @@ name: Pull Request
 on:
   push:
     branches:
-      - test
+      - feature/aws-cli-work
 
 jobs:
   Publish-Lambda-To-Cloud:
