@@ -125,6 +125,7 @@ Resources:
       Stage: prod
 
   ApiGwRoute53:
+    DependsOn: [ DomainName ]
     Type: 'AWS::Route53::RecordSet'
     Properties:
       HostedZoneId: !Ref HostedZoneId
