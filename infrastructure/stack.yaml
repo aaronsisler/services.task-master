@@ -132,5 +132,5 @@ Resources:
       Name: stack.otterandcow.com.
       Type: A
       AliasTarget:
-        HostedZoneId: !GetAtt DomainName.RegionalHostedZoneId
+        HostedZoneId: !Ref HostedZoneId
         DNSName: !GetAtt DomainName.RegionalDomainName
