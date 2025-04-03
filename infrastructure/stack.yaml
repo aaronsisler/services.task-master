@@ -69,6 +69,7 @@ Resources:
   DomainName:
     Type: 'AWS::ApiGateway::DomainName'
     Properties:
+      # This is the *.otterandcow.com ACM Cert ARN
       CertificateArn: arn:aws:acm:us-east-1:654918520080:certificate/b4d67bb3-5d56-4d5e-bf83-cdf7cb04d4ba
       DomainName: stack.otterandcow.com
 
@@ -78,3 +79,4 @@ Resources:
     Properties:
       DomainName: !Ref DomainName
       RestApiId: !Ref ApiGateway
+      Stage: prod
