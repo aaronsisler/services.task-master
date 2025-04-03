@@ -124,13 +124,13 @@ Resources:
       RestApiId: !Ref ApiGateway
       Stage: prod
 
-  ApiGwRoute53:
-    DependsOn: [ DomainName ]
-    Type: 'AWS::Route53::RecordSet'
-    Properties:
-      HostedZoneId: !Ref HostedZoneId
-      Name: stack.otterandcow.com.
-      Type: A
-      AliasTarget:
-        HostedZoneId: !Ref HostedZoneId
-        DNSName: !GetAtt DomainName.RegionalDomainName
+#  ApiGwRoute53:
+#    DependsOn: [ DomainName ]
+#    Type: 'AWS::Route53::RecordSet'
+#    Properties:
+#      HostedZoneId: !Ref HostedZoneId
+#      Name: stack.otterandcow.com.
+#      Type: A
+#      AliasTarget:
+#        HostedZoneId: !Ref HostedZoneId
+#        DNSName: !GetAtt DomainName.RegionalDomainName
