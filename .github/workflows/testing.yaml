@@ -2,7 +2,7 @@ name: Pull Request
 on:
   push:
     branches:
-      - test
+      - feature/delete-stack
 
 jobs:
   Publish-Lambda-To-Cloud:
