@@ -9,13 +9,13 @@ def create():
 
 
 def delete(stack_name):
-    does_stack_exist = stack_exists(stack_name)
+    does_stack_exist = __stack_exists(stack_name)
     print("does_stack_exist")
     print(does_stack_exist)
     return ReceiptResponse(stack_id=stack_name, does_stack_exist=does_stack_exist)
 
 
-def stack_exists(name, required_status='CREATE_COMPLETE'):
+def __stack_exists(name, required_status='CREATE_COMPLETE'):
     try:
         client = boto3.client('cloudformation')
         data = client.describe_stacks(StackName=name)
