@@ -97,7 +97,7 @@ Resources:
       AuthorizationType: NONE
       HttpMethod: DELETE
       Integration:
-        IntegrationHttpMethod: POST
+        IntegrationHttpMethod: DELETE
         Type: AWS_PROXY
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunctionDelete.Arn}/invocations
 
