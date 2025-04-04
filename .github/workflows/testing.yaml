@@ -2,7 +2,7 @@ name: Pull Request
 on:
   push:
     branches:
-      - test
+      - feature/send-stack-name
 
 jobs:
   Publish-Lambda-To-Cloud:
