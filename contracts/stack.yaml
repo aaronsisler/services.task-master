@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: Users REST API
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+paths:
+  /stacks:
+    post:
+      operationId: createStack
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Stack"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceiptResponse"
+        '5XX':
+          description: Server Error
+  /stacks/{stackName}:
+    parameters:
+      - $ref: "#/components/parameters/StackName"
+    delete:
+      operationId: deleteStackByName
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceiptResponse"
+        '5XX':
+          description: Server Error
+components:
+  schemas:
+    Stack:
+      properties:
+        resourceName:
+          type: string
+    ReceiptResponse:
+      properties:
+        stack_id:
+          type: string
+  parameters:
+    StackName:
+      in: path
+      name: stackName
+      required: true
+      schema:
+        type: string
