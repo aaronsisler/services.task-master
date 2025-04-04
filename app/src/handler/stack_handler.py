@@ -1,6 +1,6 @@
 import json
 
-from app.src.blueprint.receipt_response import ReceiptResponse
+from app.src.blueprint.delete_receipt_response import DeleteReceiptResponse
 from app.src.blueprint.response_encoder import ResponseEncoder
 from app.src.service import orchestration_service
 from app.src.util import cloudformation_stack_util
@@ -17,7 +17,7 @@ def handle_delete(event, _context):
 
     stack_name = query_params.get("stack_name")
 
-    receipt_response: ReceiptResponse = cloudformation_stack_util.delete(stack_name)
+    receipt_response: DeleteReceiptResponse = cloudformation_stack_util.delete(stack_name)
 
     return {"statusCode": 202, "body": json.dumps(receipt_response, indent=4, cls=ResponseEncoder)}
 
