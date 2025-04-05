@@ -13,6 +13,8 @@ Parameters:
     Default: vpc-0836c2a075ecb38cc
   PrefixedServiceName:
     Type: String
+  DnsPrefix:
+    Type: String
   CostCenterTag:
     Type: String
 

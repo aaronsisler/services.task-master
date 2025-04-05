@@ -20,14 +20,14 @@ def delete_stack(stack_name):
         raise client_error
 
 
-def create_stack(stack_name, template_path, parameters, tags=None):
+def create_stack(stack_name, template_content, parameters, tags=None):
     if tags is None:
         tags = []
     try:
         client = boto3.client('cloudformation')
 
         client.create_stack(StackName=stack_name,
-                            TemplateURL=template_path,
+                            TemplateBody=template_content,
                             Parameters=parameters,
                             Tags=tags)
     except ClientError as client_error:

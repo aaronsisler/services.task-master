@@ -8,7 +8,7 @@ from app.src.service import orchestration_service
 
 
 def handle_create(event, _context):
-    body_content: dict = event.get("body")
+    body_content: dict = json.loads(event.get("body"))
 
     if "service_name" not in body_content:
         error_message = {"message": "Missing body attribute: service_name"}
@@ -29,6 +29,9 @@ def handle_create(event, _context):
 
     receipt_response: CreateReceiptResponse = orchestration_service.create_stack(create_stack_request)
 
+    if receipt_response.error_message is not None:
+        return {"statusCode": 500, "body": json.dumps(receipt_response, indent=4, cls=ResponseEncoder)}
+
     return {"statusCode": 202, "body": json.dumps(receipt_response, indent=4, cls=ResponseEncoder)}
 
 
@@ -42,5 +45,8 @@ def handle_delete(event, _context):
     stack_name = query_params.get("stack_name")
 
     receipt_response: DeleteReceiptResponse = orchestration_service.delete_stack(stack_name)
+
+    if receipt_response.error_message is not None:
+        return {"statusCode": 500, "body": json.dumps(receipt_response, indent=4, cls=ResponseEncoder)}
 
     return {"statusCode": 202, "body": json.dumps(receipt_response, indent=4, cls=ResponseEncoder)}

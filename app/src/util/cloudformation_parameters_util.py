@@ -1,15 +1,15 @@
 def create_parameters(service_name, dns_prefix, cost_center):
     return [
         {
-            'ParameterKey': 'string',
+            'ParameterKey': 'PrefixedServiceName',
             'ParameterValue': service_name,
         },
         {
-            'ParameterKey': 'string',
+            'ParameterKey': 'DnsPrefix',
             'ParameterValue': dns_prefix,
         },
         {
-            'ParameterKey': 'string',
+            'ParameterKey': 'CostCenterTag',
             'ParameterValue': cost_center,
         }
-    ],
+    ]

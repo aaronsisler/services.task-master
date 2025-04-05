@@ -13,7 +13,7 @@ def create_stack(create_stack_request: CreateStackRequest):
     if does_stack_exist:
         return CreateReceiptResponse(stack_name=stack_name, does_stack_exist=True)
 
-    ecs_template_path = cloudformation_template_util.get_ecs_template_path()
+    ecs_template_content = cloudformation_template_util.get_ecs_template_content()
     parameters = cloudformation_parameters_util.create_parameters(create_stack_request.service_name,
                                                                   create_stack_request.dns_prefix,
                                                                   create_stack_request.cost_center_tag
@@ -21,7 +21,7 @@ def create_stack(create_stack_request: CreateStackRequest):
 
     try:
         stack_id = cloudformation_stack_util.create_stack(stack_name,
-                                                          ecs_template_path,
+                                                          ecs_template_content,
                                                           parameters
                                                           )
 
