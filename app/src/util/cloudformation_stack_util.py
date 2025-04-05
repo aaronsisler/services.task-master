@@ -8,10 +8,13 @@ def check_for_stack_existence(stack_name):
     try:
         client = boto3.client('cloudformation')
         data = client.describe_stacks(StackName=stack_name)
+        print("Data")
+        print(data)
     except ClientError:
         return False
 
-    return data['Stacks'][0]['StackStatus'] == 'CREATE_COMPLETE'
+    return data['Stacks'][0]['StackStatus'] is not None
+    # in ['CREATE_COMPLETE', 'ROLLBACK_COMPLETE']
 
 
 def delete_stack(stack_name):
