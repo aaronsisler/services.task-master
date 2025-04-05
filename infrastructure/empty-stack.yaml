@@ -1,0 +1,6 @@
+Description: Empty Stack For Testing
+AWSTemplateFormatVersion: "2010-09-09"
+
+Resources:
+  EmptyResource:
+    Type: AWS::CloudFormation::WaitConditionHandle
