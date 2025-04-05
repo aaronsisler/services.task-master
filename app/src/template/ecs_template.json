@@ -23,9 +23,8 @@
     "CostCenterTag": {
       "Type": "String"
     },
-    "CertificateId": {
-      "Type": "String",
-      "Default": "b4d67bb3-5d56-4d5e-bf83-cdf7cb04d4ba"
+    "CertificateArn": {
+      "Type": "String"
     },
     "TaskArn": {
       "Type": "String"

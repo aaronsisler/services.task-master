@@ -6,7 +6,8 @@
       "Effect": "Allow",
       "Action": [
         "cloudformation:CreateStack",
-        "cloudformation:DeleteStack"
+        "cloudformation:DeleteStack",
+        "acm:ListCertificates"
       ],
       "Resource": "*"
     },
