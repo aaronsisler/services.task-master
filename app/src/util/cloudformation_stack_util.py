@@ -1,3 +1,5 @@
+import json
+
 import boto3
 from botocore.exceptions import ClientError
 
@@ -27,7 +29,7 @@ def create_stack(stack_name, template_content, parameters, tags=None):
         client = boto3.client('cloudformation')
 
         client.create_stack(StackName=stack_name,
-                            TemplateBody=template_content,
+                            TemplateBody=json.dumps(template_content),
                             Parameters=parameters,
                             Tags=tags)
     except ClientError as client_error:
