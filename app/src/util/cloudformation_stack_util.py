@@ -28,9 +28,9 @@ def create_stack(stack_name, template_content, parameters, tags=None):
     try:
         client = boto3.client('cloudformation')
 
-        client.create_stack(StackName=stack_name,
-                            TemplateBody=json.dumps(template_content),
-                            Parameters=parameters,
-                            Tags=tags)
+        return client.create_stack(StackName=stack_name,
+                                   TemplateBody=json.dumps(template_content),
+                                   Parameters=parameters,
+                                   Tags=tags)
     except ClientError as client_error:
         raise client_error

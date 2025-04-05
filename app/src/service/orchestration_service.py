@@ -24,8 +24,9 @@ def create_stack(create_stack_request: CreateStackRequest):
                                                           ecs_template_content,
                                                           parameters
                                                           )
+        print(stack_id)
 
-        return CreateReceiptResponse(stack_name=stack_name, stack_id=stack_id)
+        return CreateReceiptResponse(stack_name=stack_name, stack_id="123")
 
     except ClientError as client_error:
         return CreateReceiptResponse(stack_name=stack_name, error_message=client_error)
