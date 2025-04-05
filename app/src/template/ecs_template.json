@@ -46,6 +46,37 @@
           }
         ]
       }
+    },
+    "LoadBalancerTargetGroup": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "Name": {
+          "Fn::Sub": "${PrefixedServiceName}-tg"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "Protocol": "HTTPS",
+        "Port": 8443,
+        "TargetType": "ip",
+        "HealthCheckProtocol": "HTTPS",
+        "HealthCheckPort": 8443,
+        "HealthCheckPath": "/actuator/health",
+        "TargetGroupAttributes": [
+          {
+            "Key": "deregistration_delay.timeout_seconds",
+            "Value": "300"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "CostCenter",
+            "Value": {
+              "Ref": "CostCenterTag"
+            }
+          }
+        ]
+      }
     }
   }
 }
