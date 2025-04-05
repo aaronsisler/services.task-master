@@ -96,7 +96,7 @@
         "Certificates": [
           {
             "CertificateArn": {
-              "Fn::Sub": "arn:aws:acm:us-east-1:654918520080:certificate/${CertificateId}"
+              "Ref": "CertificateArn"
             }
           }
         ],

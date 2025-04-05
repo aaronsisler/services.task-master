@@ -4,7 +4,7 @@ from app.src.blueprint.create_receipt_response import CreateReceiptResponse
 from app.src.blueprint.create_stack_request import CreateStackRequest
 from app.src.blueprint.delete_receipt_response import DeleteReceiptResponse
 from app.src.util import cloudformation_stack_util, cloudformation_template_util, cloudformation_parameters_util, \
-    ecs_task_util
+    ecs_task_util, certificate_util
 
 
 def create_stack(create_stack_request: CreateStackRequest):
@@ -20,10 +20,13 @@ def create_stack(create_stack_request: CreateStackRequest):
         ecs_task_name = create_stack_request.service_name + "-task"
         ecs_latest_task_arn = ecs_task_util.find_latest_task_arn(ecs_task_name)
 
+        certificate_arn = certificate_util.find_certificate_arn(create_stack_request.domain_name)
+
         parameters = cloudformation_parameters_util.create_parameters(create_stack_request.service_name,
                                                                       create_stack_request.dns_prefix,
                                                                       create_stack_request.cost_center_tag,
-                                                                      ecs_latest_task_arn
+                                                                      ecs_latest_task_arn,
+                                                                      certificate_arn
                                                                       )
 
         stack_id = cloudformation_stack_util.create_stack(stack_name,
