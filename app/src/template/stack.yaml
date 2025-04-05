@@ -11,22 +11,33 @@ Parameters:
   VpcId:
     Type: String
     Default: vpc-0836c2a075ecb38cc
+  PrefixedServiceName:
+    Type: String
+  DnsPrefix:
+    Type: String
+  CostCenterTag:
+    Type: String
+  CertificateId:
+    Type: String
+    Default: b4d67bb3-5d56-4d5e-bf83-cdf7cb04d4ba
+  TaskArn:
+    Type: String
 
 Resources:
   LoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: events-admin-service-lb
+      Name: !Sub "${PrefixedServiceName}-lb"
       SecurityGroups: !Ref SecurityGroupIds
       Subnets: !Ref SubnetIds
       Tags:
         - Key: "CostCenter"
-          Value: "applications.events-admin.events-admin-service"
+          Value: !Ref CostCenterTag
 
   LoadBalancerTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: events-admin-service-tg
+      Name: !Sub "${PrefixedServiceName}-tg"
       VpcId: !Ref VpcId
       Protocol: HTTPS
       Port: 8443
@@ -39,7 +50,7 @@ Resources:
           Value: "300"
       Tags:
         - Key: "CostCenter"
-          Value: "applications.events-admin.events-admin-service"
+          Value: !Ref CostCenterTag
 
   LoadBalancerListener:
     DependsOn: [ LoadBalancer, LoadBalancerTargetGroup ]
@@ -47,7 +58,7 @@ Resources:
     Properties:
       Protocol: HTTPS
       Certificates:
-        - arn:aws:acm:us-east-1:654918520080:certificate/b4d67bb3-5d56-4d5e-bf83-cdf7cb04d4ba
+        - CertificateArn: !Sub "arn:aws:acm:us-east-1:654918520080:certificate/${CertificateId}"
       LoadBalancerArn: !Ref LoadBalancer
       Port: 443
       DefaultActions:
@@ -59,7 +70,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: ZR2VAHLVW389H
-      Name: events-service.otterandcow.com.
+      Name: !Sub "${DnsPrefix}.otterandcow.com."
       Type: A
       AliasTarget:
         HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
@@ -71,8 +82,8 @@ Resources:
     Type: AWS::ECS::Service
     Properties:
       Cluster: default
-      ServiceName: events-admin-service
-      TaskDefinition: arn:aws:ecs:us-east-1:654918520080:task-definition/events-admin-service-task:6
+      ServiceName: !Sub "${PrefixedServiceName}"
+      TaskDefinition: !Sub "arn:aws:ecs:us-east-1:654918520080:task-definition/${PrefixedServiceName}-task:${TaskNumber}"
       LaunchType: FARGATE
       PlatformVersion: LATEST
       SchedulingStrategy: REPLICA
@@ -85,7 +96,7 @@ Resources:
           Subnets: !Ref SubnetIds
       LoadBalancers:
         - ContainerPort: 8443
-          ContainerName: events-admin-service-container
+          ContainerName: !Sub "${PrefixedServiceName}-container"
           TargetGroupArn: !Ref LoadBalancerTargetGroup
       DeploymentConfiguration:
         DeploymentCircuitBreaker:
@@ -99,4 +110,4 @@ Resources:
         Enabled: false
       Tags:
         - Key: "CostCenter"
-          Value: "applications.events-admin.events-admin-service"
+          Value: !Ref CostCenterTag

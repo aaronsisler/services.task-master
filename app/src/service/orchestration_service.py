@@ -3,7 +3,8 @@ from botocore.exceptions import ClientError
 from app.src.blueprint.create_receipt_response import CreateReceiptResponse
 from app.src.blueprint.create_stack_request import CreateStackRequest
 from app.src.blueprint.delete_receipt_response import DeleteReceiptResponse
-from app.src.util import cloudformation_stack_util, cloudformation_template_util, cloudformation_parameters_util
+from app.src.util import cloudformation_stack_util, cloudformation_template_util, cloudformation_parameters_util, \
+    ecs_task_util
 
 
 def create_stack(create_stack_request: CreateStackRequest):
@@ -13,18 +14,22 @@ def create_stack(create_stack_request: CreateStackRequest):
     if does_stack_exist:
         return CreateReceiptResponse(stack_name=stack_name, does_stack_exist=True)
 
-    ecs_template_content = cloudformation_template_util.get_ecs_template_content()
+    stack_template_content = cloudformation_template_util.get_ecs_template_content()
+
+    ecs_task_name = create_stack_request.service_name + "task"
+    ecs_latest_task_arn = ecs_task_util.find_latest_task_arn(ecs_task_name)
+
     parameters = cloudformation_parameters_util.create_parameters(create_stack_request.service_name,
                                                                   create_stack_request.dns_prefix,
-                                                                  create_stack_request.cost_center_tag
+                                                                  create_stack_request.cost_center_tag,
+                                                                  ecs_latest_task_arn
                                                                   )
 
     try:
         stack_id = cloudformation_stack_util.create_stack(stack_name,
-                                                          ecs_template_content,
+                                                          stack_template_content,
                                                           parameters
                                                           )
-        print(stack_id)
 
         return CreateReceiptResponse(stack_name=stack_name, stack_id=stack_id)
 

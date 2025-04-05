@@ -22,6 +22,13 @@
     },
     "CostCenterTag": {
       "Type": "String"
+    },
+    "CertificateId": {
+      "Type": "String",
+      "Default": "b4d67bb3-5d56-4d5e-bf83-cdf7cb04d4ba"
+    },
+    "TaskArn": {
+      "Type": "String"
     }
   },
   "Resources": {
@@ -68,6 +75,129 @@
             "Value": "300"
           }
         ],
+        "Tags": [
+          {
+            "Key": "CostCenter",
+            "Value": {
+              "Ref": "CostCenterTag"
+            }
+          }
+        ]
+      }
+    },
+    "LoadBalancerListener": {
+      "DependsOn": [
+        "LoadBalancer",
+        "LoadBalancerTargetGroup"
+      ],
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": {
+              "Fn::Sub": "arn:aws:acm:us-east-1:654918520080:certificate/${CertificateId}"
+            }
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "LoadBalancer"
+        },
+        "Port": 443,
+        "DefaultActions": [
+          {
+            "Type": "forward",
+            "TargetGroupArn": {
+              "Ref": "LoadBalancerTargetGroup"
+            }
+          }
+        ]
+      }
+    },
+    "Route53Record": {
+      "DependsOn": [
+        "LoadBalancer"
+      ],
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": "ZR2VAHLVW389H",
+        "Name": {
+          "Fn::Sub": "${DnsPrefix}.otterandcow.com."
+        },
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "LoadBalancer",
+              "CanonicalHostedZoneID"
+            ]
+          },
+          "DNSName": {
+            "Fn::GetAtt": [
+              "LoadBalancer",
+              "DNSName"
+            ]
+          },
+          "EvaluateTargetHealth": "true"
+        }
+      }
+    },
+    "EcsService": {
+      "DependsOn": [
+        "LoadBalancer",
+        "LoadBalancerTargetGroup",
+        "LoadBalancerListener"
+      ],
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": "default",
+        "ServiceName": {
+          "Fn::Sub": "${PrefixedServiceName}"
+        },
+        "TaskDefinition": {
+          "Ref": "TaskArn"
+        },
+        "LaunchType": "FARGATE",
+        "PlatformVersion": "LATEST",
+        "SchedulingStrategy": "REPLICA",
+        "DesiredCount": 1,
+        "AvailabilityZoneRebalancing": "ENABLED",
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "ENABLED",
+            "SecurityGroups": {
+              "Ref": "SecurityGroupIds"
+            },
+            "Subnets": {
+              "Ref": "SubnetIds"
+            }
+          }
+        },
+        "LoadBalancers": [
+          {
+            "ContainerPort": 8443,
+            "ContainerName": {
+              "Fn::Sub": "${PrefixedServiceName}-container"
+            },
+            "TargetGroupArn": {
+              "Ref": "LoadBalancerTargetGroup"
+            }
+          }
+        ],
+        "DeploymentConfiguration": {
+          "DeploymentCircuitBreaker": {
+            "Enable": true,
+            "Rollback": true
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100
+        },
+        "DeploymentController": {
+          "Type": "ECS"
+        },
+        "ServiceConnectConfiguration": {
+          "Enabled": false
+        },
         "Tags": [
           {
             "Key": "CostCenter",
