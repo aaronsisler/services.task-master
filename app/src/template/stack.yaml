@@ -11,13 +11,15 @@ Parameters:
   VpcId:
     Type: String
     Default: vpc-0836c2a075ecb38cc
-  PrefixedServiceName:
-    Type: String
-  DnsPrefix:
-    Type: String
   CostCenterTag:
     Type: String
   CertificateArn:
+    Type: String
+  DnsPrefix:
+    Type: String
+  DomainName:
+    Type: String
+  PrefixedServiceName:
     Type: String
   TaskArn:
     Type: String
@@ -69,7 +71,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: ZR2VAHLVW389H
-      Name: !Sub "${DnsPrefix}.otterandcow.com."
+      Name: !Sub "${DnsPrefix}.${DomainName}."
       Type: A
       AliasTarget:
         HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID

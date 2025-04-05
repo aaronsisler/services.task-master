@@ -14,16 +14,19 @@
       "Type": "String",
       "Default": "vpc-0836c2a075ecb38cc"
     },
-    "PrefixedServiceName": {
-      "Type": "String"
-    },
-    "DnsPrefix": {
+    "CertificateArn": {
       "Type": "String"
     },
     "CostCenterTag": {
       "Type": "String"
     },
-    "CertificateArn": {
+    "DnsPrefix": {
+      "Type": "String"
+    },
+    "DomainName": {
+      "Type": "String"
+    },
+    "PrefixedServiceName": {
       "Type": "String"
     },
     "TaskArn": {
@@ -121,7 +124,7 @@
       "Properties": {
         "HostedZoneId": "ZR2VAHLVW389H",
         "Name": {
-          "Fn::Sub": "${DnsPrefix}.otterandcow.com."
+          "Fn::Sub": "${DnsPrefix}.${DomainName}."
         },
         "Type": "A",
         "AliasTarget": {

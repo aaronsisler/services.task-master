@@ -25,6 +25,7 @@ def create_stack(create_stack_request: CreateStackRequest):
         parameters = cloudformation_parameters_util.create_parameters(create_stack_request.service_name,
                                                                       create_stack_request.dns_prefix,
                                                                       create_stack_request.cost_center_tag,
+                                                                      create_stack_request.domain_name,
                                                                       ecs_latest_task_arn,
                                                                       certificate_arn
                                                                       )
