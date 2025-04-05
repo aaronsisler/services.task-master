@@ -9,14 +9,13 @@ def find_latest_task_arn(task_name):
         client = boto3.client('ecs')
 
         response = client.describe_task_definition(taskDefinition=task_name)
-        print(response)
 
         task_definition = itemgetter('taskDefinition')(response)
 
         if "taskDefinitionArn" not in task_definition:
             raise ClientError
 
-        task_definition_arn = itemgetter('taskDefinitionArn')(response)
+        task_definition_arn = itemgetter('taskDefinitionArn')(task_definition)
 
         return task_definition_arn
 
