@@ -1,5 +1,5 @@
 class DeleteReceiptResponse:
-    def __init__(self, stack_name, does_stack_exist, was_delete_triggered, error_message=None):
+    def __init__(self, stack_name, does_stack_exist=True, was_delete_triggered=False, error_message=None):
         super().__init__()
         self.stack_name = stack_name
         self.does_stack_exist = does_stack_exist
