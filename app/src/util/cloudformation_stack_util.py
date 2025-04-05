@@ -7,14 +7,11 @@ from botocore.exceptions import ClientError
 def check_for_stack_existence(stack_name):
     try:
         client = boto3.client('cloudformation')
-        data = client.describe_stacks(StackName=stack_name)
-        print("Data")
-        print(data)
+        # If stack doesn't exist, client will throw ClientError
+        client.describe_stacks(StackName=stack_name)
+        return True
     except ClientError:
         return False
-
-    return data['Stacks'][0]['StackStatus'] is not None
-    # in ['CREATE_COMPLETE', 'ROLLBACK_COMPLETE']
 
 
 def delete_stack(stack_name):
