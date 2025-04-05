@@ -24,7 +24,8 @@ def handle_create(event, _context):
 
     create_stack_request: CreateStackRequest = CreateStackRequest(body_content.get("service_name"),
                                                                   body_content.get("dns_prefix"),
-                                                                  body_content.get("cost_center_tag")
+                                                                  body_content.get("cost_center_tag"),
+                                                                  body_content.get("domain_name")
                                                                   )
 
     receipt_response: CreateReceiptResponse = orchestration_service.create_stack(create_stack_request)

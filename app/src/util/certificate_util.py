@@ -4,7 +4,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 
-def find_certificate_arn(domain_name="otterandcow.com"):
+def find_certificate_arn(domain_name):
     try:
         client = boto3.client('acm')
 
