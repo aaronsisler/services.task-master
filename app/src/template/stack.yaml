@@ -30,7 +30,7 @@ Resources:
   LoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: !Sub "${PrefixedServiceName}-lb"
+      Name: !Sub "${PrefixedServiceShortName}-lb"
       SecurityGroups: !Ref SecurityGroupIds
       Subnets: !Ref SubnetIds
       Tags:
