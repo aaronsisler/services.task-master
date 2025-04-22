@@ -22,11 +22,21 @@ def handle_create(event, _context):
         error_message = {"message": "Missing body attribute: cost_center_tag"}
         return {"statusCode": 400, "body": json.dumps(error_message, indent=4)}
 
-    create_stack_request: CreateStackRequest = CreateStackRequest(body_content.get("service_name"),
-                                                                  body_content.get("dns_prefix"),
-                                                                  body_content.get("cost_center_tag"),
-                                                                  body_content.get("domain_name")
-                                                                  )
+    if "service_short_name" not in body_content and len(body_content.get("service_name")) > 32:
+        error_message = {"message": "service_name cannot be longer than 32 characters. Use service_short_name instead"}
+        return {"statusCode": 400, "body": json.dumps(error_message, indent=4)}
+
+    if "service_short_name" in body_content and len(body_content.get("service_short_name")) > 32:
+        error_message = {"message": "service_short_name cannot be longer than 32 characters"}
+        return {"statusCode": 400, "body": json.dumps(error_message, indent=4)}
+
+    create_stack_request: CreateStackRequest = CreateStackRequest(
+        body_content.get("service_name"),
+        body_content.get("service_short_name"),
+        body_content.get("dns_prefix"),
+        body_content.get("cost_center_tag"),
+        body_content.get("domain_name")
+    )
 
     receipt_response: CreateReceiptResponse = orchestration_service.create_stack(create_stack_request)
 

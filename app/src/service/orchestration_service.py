@@ -22,13 +22,22 @@ def create_stack(create_stack_request: CreateStackRequest):
 
         certificate_arn = certificate_util.find_certificate_arn(create_stack_request.domain_name)
 
-        parameters = cloudformation_parameters_util.create_parameters(create_stack_request.service_name,
-                                                                      create_stack_request.dns_prefix,
-                                                                      create_stack_request.cost_center_tag,
-                                                                      create_stack_request.domain_name,
-                                                                      ecs_latest_task_arn,
-                                                                      certificate_arn
-                                                                      )
+        if create_stack_request.service_short_name is None:
+            parameters = cloudformation_parameters_util.create_parameters(create_stack_request.service_name,
+                                                                          create_stack_request.dns_prefix,
+                                                                          create_stack_request.cost_center_tag,
+                                                                          create_stack_request.domain_name,
+                                                                          ecs_latest_task_arn,
+                                                                          certificate_arn
+                                                                          )
+        else:
+            parameters = cloudformation_parameters_util.create_parameters(create_stack_request.service_short_name,
+                                                                          create_stack_request.dns_prefix,
+                                                                          create_stack_request.cost_center_tag,
+                                                                          create_stack_request.domain_name,
+                                                                          ecs_latest_task_arn,
+                                                                          certificate_arn
+                                                                          )
 
         stack_id = cloudformation_stack_util.create_stack(stack_name,
                                                           stack_template_content,
