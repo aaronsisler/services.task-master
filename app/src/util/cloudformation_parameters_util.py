@@ -1,4 +1,5 @@
-def create_parameters(service_name, dns_prefix, cost_center, domain_name, task_arn, certificate_arn):
+def create_parameters(service_name, service_short_name, dns_prefix, cost_center, domain_name, task_arn,
+                      certificate_arn):
     return [
         {
             'ParameterKey': 'CertificateArn',
@@ -19,6 +20,10 @@ def create_parameters(service_name, dns_prefix, cost_center, domain_name, task_a
         {
             'ParameterKey': 'PrefixedServiceName',
             'ParameterValue': service_name,
+        },
+        {
+            'ParameterKey': 'PrefixedServiceShortName',
+            'ParameterValue': service_short_name,
         },
         {
             'ParameterKey': 'TaskArn',

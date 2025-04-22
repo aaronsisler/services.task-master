@@ -21,6 +21,8 @@ Parameters:
     Type: String
   PrefixedServiceName:
     Type: String
+  PrefixedServiceShortName:
+    Type: String
   TaskArn:
     Type: String
 
@@ -38,7 +40,7 @@ Resources:
   LoadBalancerTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: !Sub "${PrefixedServiceName}-tg"
+      Name: !Sub "${PrefixedServiceShortName}-tg"
       VpcId: !Ref VpcId
       Protocol: HTTPS
       Port: 8443

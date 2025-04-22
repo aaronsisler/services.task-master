@@ -14,10 +14,10 @@
       "Type": "String",
       "Default": "vpc-0836c2a075ecb38cc"
     },
-    "CertificateArn": {
+    "CostCenterTag": {
       "Type": "String"
     },
-    "CostCenterTag": {
+    "CertificateArn": {
       "Type": "String"
     },
     "DnsPrefix": {
@@ -27,6 +27,9 @@
       "Type": "String"
     },
     "PrefixedServiceName": {
+      "Type": "String"
+    },
+    "PrefixedServiceShortName": {
       "Type": "String"
     },
     "TaskArn": {
@@ -60,7 +63,7 @@
       "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
       "Properties": {
         "Name": {
-          "Fn::Sub": "${PrefixedServiceName}-tg"
+          "Fn::Sub": "${PrefixedServiceShortName}-tg"
         },
         "VpcId": {
           "Ref": "VpcId"
