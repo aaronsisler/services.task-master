@@ -41,7 +41,7 @@
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
       "Properties": {
         "Name": {
-          "Fn::Sub": "${PrefixedServiceName}-lb"
+          "Fn::Sub": "${PrefixedServiceShortName}-lb"
         },
         "SecurityGroups": {
           "Ref": "SecurityGroupIds"
